@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { ScrollControls } from "@react-three/drei";
 import CameraRig from "./CameraRig";
+import ScrollLoopFix from "./ScrollLoopFix";
 import VoxelWorld from "./VoxelWorld";
 import DuskSky from "./DuskSky";
 import Door from "./Door";
@@ -52,6 +53,7 @@ export default function Experience() {
 
       <ScrollControls pages={SEGMENTS} damping={0.42} infinite>
         <CameraRig />
+        <ScrollLoopFix />
         <VoxelWorld />
         <Figures />
         <Door />
