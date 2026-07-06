@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+:root {
+  --background: #181310;
+  --foreground: #f2e8d5;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-pixel-body), monospace;
+}
+
+/* Pixel heading font (Press Start 2P) — use sparingly, it's dense */
+.font-pixel {
+  font-family: var(--font-pixel), monospace;
+}
+
+/* Pixel body font (VT323) — readable at 16px+ */
+.font-pixel-body {
+  font-family: var(--font-pixel-body), monospace;
+}
