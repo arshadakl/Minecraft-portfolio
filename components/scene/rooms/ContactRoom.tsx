@@ -39,7 +39,7 @@ export default function ContactRoom() {
               </a>
             ))}
             <a
-              href="https://linkedin.com/in/arshad-akl"
+              href="https://www.arshadakl.in/docs/arshad_2026.pdf"
               target="_blank"
               rel="noreferrer"
               className={`${linkBtn} border-[#4c6b2f]! bg-[#c4d4a0]!`}
