@@ -1,23 +1,14 @@
 "use client";
 
-import { useEffect } from "react";
 import { useSiteStore } from "@/lib/store";
 
 /**
- * 3D <-> 2D switch. Also auto-selects the 2D view on coarse-pointer (touch)
- * devices and for users preferring reduced motion — the scroll tour is a
- * desktop experience.
+ * 3D <-> 2D switch. Defaults to the 3D scroll tour on every device; users can
+ * opt into the 2D simple view manually with this button.
  */
 export default function ModeToggle() {
   const simple = useSiteStore((s) => s.simpleMode);
   const setSimpleMode = useSiteStore((s) => s.setSimpleMode);
-
-  useEffect(() => {
-    const coarse = window.matchMedia("(pointer: coarse)").matches;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const small = window.innerWidth < 768;
-    if (coarse || reduced || small) setSimpleMode(true);
-  }, [setSimpleMode]);
 
   return (
     <button

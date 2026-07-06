@@ -37,6 +37,10 @@ export default function LoadingScreen() {
       <p className="font-pixel-body text-sm text-amber-200/40">
         {Math.round(progress)}%
       </p>
+      <p className="mt-2 max-w-xs text-center font-pixel-body text-base text-amber-200/50">
+        🖱 Scroll or swipe to walk through the world — each move takes you to
+        the next room.
+      </p>
     </div>
   );
 }
