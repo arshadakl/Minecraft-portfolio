@@ -1,0 +1,18 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "minecraft-portfolio",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-03-25",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "binding": "ASSETS",
+    "directory": ".open-next/assets"
+  },
+  // CONTACT_UPSTREAM_URL and CONTACT_SOURCE are NOT set here (would be committed).
+  // Set them per-environment as secrets, e.g.:
+  //   npx wrangler secret put CONTACT_UPSTREAM_URL
+  //   npx wrangler secret put CONTACT_SOURCE
+  "observability": {
+    "enabled": true
+  }
+}
