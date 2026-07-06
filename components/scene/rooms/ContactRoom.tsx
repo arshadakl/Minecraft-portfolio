@@ -39,6 +39,14 @@ export default function ContactRoom() {
               </a>
             ))}
             <a
+              href="https://arshadakl.in"
+              target="_blank"
+              rel="noreferrer"
+              className={`${linkBtn} border-[#8a6a3e]! bg-[#efe0bd]!`}
+            >
+              🌐 arshadakl.in ↗
+            </a>
+            <a
               href="https://www.arshadakl.in/docs/arshad_2026.pdf"
               target="_blank"
               rel="noreferrer"
