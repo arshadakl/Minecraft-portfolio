@@ -1,24 +1,17 @@
 import { NextResponse } from "next/server";
-import nodemailer from "nodemailer";
-
-// nodemailer needs Node APIs — opt out of the Edge runtime.
-export const runtime = "nodejs";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-/** Escape user text before dropping it into the HTML email body. */
-function esc(s: string): string {
-  return s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
+// Upstream contact endpoint + source tag come from env only — never hardcoded.
+// Local: .env.local (gitignored). Production: Cloudflare secret/var.
+const SOURCE = process.env.CONTACT_SOURCE ?? "portfolio";
 
 /**
- * Contact form endpoint. Sends the message to GMAIL_USER via Gmail SMTP
- * using a Google App Password (GMAIL_APP_PASSWORD), with the sender's
- * address set as Reply-To so replies go straight back to them.
+ * Contact form endpoint. Validates input, then forwards to the main
+ * portfolio's contact API so the message is delivered there. Runs on the
+ * Cloudflare Workers runtime — no SMTP/nodemailer, just an outbound fetch.
+ * A source tag is prefixed to the subject/message so replies are traceable
+ * back to the Minecraft site.
  */
 export async function POST(req: Request) {
   const data = (await req.json().catch(() => null)) as {
@@ -52,41 +45,41 @@ export async function POST(req: Request) {
     );
   }
 
-  const user = process.env.GMAIL_USER;
-  const pass = process.env.GMAIL_APP_PASSWORD;
-  if (!user || !pass) {
-    console.error("[contact] GMAIL_USER / GMAIL_APP_PASSWORD not set");
+  const upstream = process.env.CONTACT_UPSTREAM_URL;
+  if (!upstream) {
+    console.error("[contact] CONTACT_UPSTREAM_URL not set");
     return NextResponse.json(
-      { ok: false, error: "Email isn't configured on the server yet." },
+      { ok: false, error: "Contact isn't configured on the server yet." },
       { status: 500 }
     );
   }
 
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: { user, pass },
-  });
-
-  const heading = subject ? `${subject} — ${name}` : `New message — ${name}`;
+  // Tag the source so the received mail is clearly from the Minecraft site.
+  const taggedSubject = `[from ${SOURCE}] ${subject || "New message"}`;
+  const taggedMessage = `(sent via ${SOURCE})\n\n${message}`;
 
   try {
-    await transporter.sendMail({
-      from: `"Portfolio Contact" <${user}>`,
-      to: user,
-      replyTo: `"${name}" <${email}>`,
-      subject: `[Portfolio] ${heading}`,
-      text: `From: ${name} <${email}>\nSubject: ${subject || "(none)"}\n\n${message}`,
-      html: `
-        <div style="font-family:system-ui,sans-serif;line-height:1.5">
-          <p><strong>From:</strong> ${esc(name)} &lt;${esc(email)}&gt;</p>
-          <p><strong>Subject:</strong> ${esc(subject || "(none)")}</p>
-          <hr />
-          <p style="white-space:pre-wrap">${esc(message)}</p>
-        </div>`,
+    const res = await fetch(upstream, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name,
+        email,
+        subject: taggedSubject,
+        message: taggedMessage,
+      }),
     });
+
+    if (!res.ok) {
+      console.error("[contact] upstream returned", res.status);
+      return NextResponse.json(
+        { ok: false, error: "Couldn't send right now — please email me directly." },
+        { status: 502 }
+      );
+    }
     return NextResponse.json({ ok: true });
   } catch (err) {
-    console.error("[contact] send failed:", err);
+    console.error("[contact] forward failed:", err);
     return NextResponse.json(
       { ok: false, error: "Couldn't send right now — please email me directly." },
       { status: 502 }
