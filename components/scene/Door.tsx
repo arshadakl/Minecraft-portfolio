@@ -6,14 +6,19 @@ import { useScroll } from "@react-three/drei";
 import * as THREE from "three";
 import { getTexturePack } from "@/lib/voxel/textures";
 import { SEGMENTS } from "@/lib/path";
+import { audio } from "@/lib/audio";
 
 /**
- * Front door, hinged on its left post at x=-1, opening inward as the
- * camera approaches (scroll pages ~1.05 to 1.7).
+ * Front door, hinged on its left post at x=-1. Swings open inward as the
+ * camera enters (scroll pages ~1.05 to 1.7) and swings shut again as the
+ * camera leaves the last room out the back (pages ~9.5 to 10.5), so it's
+ * closed during the outdoor flyover and on return to the garden.
  */
 export default function Door() {
   const hinge = useRef<THREE.Group>(null);
   const scroll = useScroll();
+  // Tracks the last open/closed state so we play the sound only on change.
+  const wasOpen = useRef(false);
   const woodMat = useMemo(
     () =>
       new THREE.MeshStandardMaterial({
@@ -26,8 +31,17 @@ export default function Door() {
   useFrame(() => {
     if (!hinge.current) return;
     const page = (((scroll.offset % 1) + 1) % 1) * SEGMENTS;
-    const t = THREE.MathUtils.smoothstep(page, 1.05, 1.7);
-    hinge.current.rotation.y = t * 2.1; // swing inward
+    // Open on entry, then close again as the camera exits past the last room.
+    const opening = THREE.MathUtils.smoothstep(page, 1.05, 1.7);
+    const closing = THREE.MathUtils.smoothstep(page, 9.5, 10.5);
+    const open = opening * (1 - closing);
+    hinge.current.rotation.y = open * 2.1; // swing inward
+
+    const isOpen = open > 0.5;
+    if (isOpen !== wasOpen.current) {
+      wasOpen.current = isOpen;
+      audio.play(isOpen ? "doorOpen" : "doorClose");
+    }
   });
 
   return (

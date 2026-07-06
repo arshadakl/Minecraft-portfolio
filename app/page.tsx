@@ -6,6 +6,7 @@ import NavDots from "@/components/ui/NavDots";
 import LoadingScreen from "@/components/ui/LoadingScreen";
 import SimpleView from "@/components/ui/SimpleView";
 import ModeToggle from "@/components/ui/ModeToggle";
+import SoundToggle from "@/components/ui/SoundToggle";
 
 const Experience = dynamic(() => import("@/components/scene/Experience"), {
   ssr: false,
@@ -27,6 +28,7 @@ export default function Home() {
         </>
       )}
       <ModeToggle />
+      <SoundToggle />
     </main>
   );
 }
