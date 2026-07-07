@@ -478,6 +478,19 @@ export function buildScene(): BlockGroup[] {
   put(3, 0, -40, Block.PlankDark);
   put(3, 1, -40, Block.Lantern);
 
+  // ================================================================ vault
+  // Hidden annex behind the back wall, east of the exit door. The 3x3
+  // opening (x 2..4, y 0..2) is carved here; the animated seal blocks and
+  // the chest render in components/scene/Vault.tsx and must match these
+  // cells exactly.
+  for (let x = 2; x <= 4; x++) for (let y = 0; y <= 2; y++) carve(x, y, Z1);
+  fill(1, 5, 0, 2, -46, -46, Block.MossyBrick); // annex back wall
+  fill(1, 1, 0, 2, -45, -45, Block.MossyBrick); // west side
+  fill(5, 5, 0, 2, -45, -45, Block.MossyBrick); // east side
+  fill(1, 5, 3, 3, -46, -45, Block.PlankDark); // flat roof
+  fill(2, 4, -1, -1, -45, -45, Block.StoneBrick); // vault floor
+  decor.push([Block.Lantern, 5, 4, -46]); // roof-corner lantern
+
   // ================================================================ group
   const groups = new Map<Block, number[]>();
   const push = (type: Block, x: number, y: number, z: number) => {

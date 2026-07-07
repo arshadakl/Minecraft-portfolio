@@ -6,6 +6,8 @@ import { useScroll } from "@react-three/drei";
 import * as THREE from "three";
 import { cameraCurve, lookCurve, SEGMENTS, SEGMENT_SECTION } from "@/lib/path";
 import { useSiteStore } from "@/lib/store";
+import { useProgress } from "@/lib/progress";
+import { useFreelook } from "@/lib/freelook";
 
 /**
  * Drives the camera along the closed CatmullRom loop from scroll progress.
@@ -19,9 +21,14 @@ export default function CameraRig() {
   const look = useRef(new THREE.Vector3());
   // Smoothed idle sway target (lags the raw pointer so motion feels organic)
   const sway = useRef({ x: 0, y: 0 });
+  // Freelook: mouse drag or arrow keys rotate the view
+  const { yaw, pitch } = useFreelook();
 
   useEffect(() => {
     useSiteStore.getState().setScrollEl(scroll.el);
+    // Record the section the tour starts in — the frame loop only records
+    // section *changes*, so the garden would otherwise never count.
+    useProgress.getState().visitSection(useSiteStore.getState().currentSection);
     return () => useSiteStore.getState().setScrollEl(null);
   }, [scroll]);
 
@@ -44,12 +51,32 @@ export default function CameraRig() {
     pos.current.y += breath + sway.current.y * 0.05;
 
     camera.position.copy(pos.current);
+
+    // Freelook: rotate the look direction by yaw/pitch
+    const direction = look.current.clone().sub(pos.current).normalize();
+    // Direction → spherical coords
+    let theta = Math.atan2(direction.x, direction.z); // yaw
+    let phi = Math.asin(direction.y); // pitch
+    // Apply freelook deltas
+    theta += yaw.current;
+    phi += pitch.current;
+    // Back to Cartesian, apply to lookAt point (1 unit away)
+    const r = Math.cos(phi);
+    look.current.set(
+      pos.current.x + r * Math.sin(theta),
+      pos.current.y + Math.sin(phi),
+      pos.current.z + r * Math.cos(theta)
+    );
+
     camera.lookAt(look.current);
 
     const seg = Math.min(SEGMENTS - 1, Math.floor(t * SEGMENTS));
     const section = SEGMENT_SECTION[seg];
     const store = useSiteStore.getState();
-    if (store.currentSection !== section) store.setCurrentSection(section);
+    if (store.currentSection !== section) {
+      store.setCurrentSection(section);
+      useProgress.getState().visitSection(section);
+    }
   });
 
   return null;

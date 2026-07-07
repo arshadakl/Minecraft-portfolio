@@ -47,6 +47,20 @@ export const achievement = {
   ],
 };
 
+/** Story shown inside the hidden vault once every bug is squashed. */
+export const vault = {
+  title: "The Vault",
+  intro:
+    "You squashed all seven bugs. Here's the story of the real one.",
+  paragraphs: [
+    "In 2025 I found a critical vulnerability in a major Kerala public university's portal — 200,000+ students' and alumni's records exposed: contact details, Aadhaar numbers, photos, academic records.",
+    "No drama, no dumps. I wrote a detailed remediation report and disclosed it responsibly through CERT-In (Government of India).",
+    "CERT-In coordinated the fix with the university and listed me in their national Hall of Fame. The press picked it up from there.",
+    "That's the job: find it, prove it, report it, get it fixed — before someone less friendly finds it first.",
+  ],
+  outro: "Thanks for playing. If you hunt bugs too — or need someone who does — say hi in the contact room.",
+};
+
 export interface Job {
   company: string;
   period: string;

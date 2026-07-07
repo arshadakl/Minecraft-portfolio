@@ -17,6 +17,8 @@ import ProjectsRoom from "./rooms/ProjectsRoom";
 import SkillsRoom from "./rooms/SkillsRoom";
 import ContactRoom from "./rooms/ContactRoom";
 import Figures from "./Figures";
+import Bugs from "./Bugs";
+import Vault from "./Vault";
 import { SEGMENTS } from "@/lib/path";
 
 /** The full 3D tour: golden-hour cottage, scroll rig, all room content. */
@@ -56,6 +58,8 @@ export default function Experience() {
         <ScrollLoopFix />
         <VoxelWorld />
         <Figures />
+        <Bugs />
+        <Vault />
         <Door />
         <NameSign />
         <EntryHall />
