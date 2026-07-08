@@ -4,6 +4,9 @@ A 3D portfolio site built as a walkable Minecraft-style voxel house. Scroll to m
 
 **Live:** [minecraft.arshadakl.in](https://minecraft.arshadakl.in)
 
+![StreamHub Banner](https://raw.githubusercontent.com/arshadakl/assets/refs/heads/main/minecraft.png)
+
+
 ## Stack
 
 - **Next.js 16** (App Router) + **React 19** + **TypeScript**
