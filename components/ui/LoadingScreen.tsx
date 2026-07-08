@@ -25,7 +25,7 @@ export default function LoadingScreen() {
       }`}
     >
       <p className="font-pixel text-xl tracking-[0.2em] text-amber-100">
-        {profile.name}
+        {profile.shortName}
       </p>
       <p className="font-pixel-body text-lg text-amber-200/60">Building world…</p>
       <div className="h-5 w-72 border-2 border-[#5c3f24] bg-[#0d0a07] p-0.5">
