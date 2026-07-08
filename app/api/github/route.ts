@@ -39,7 +39,10 @@ export async function GET() {
         recent.slice(w * 7, w * 7 + 7).map((d) => Math.max(0, Math.min(4, d.level ?? 0)))
       );
     }
-    const total = recent.reduce((sum, d) => sum + (d.count ?? 0), 0);
+    // Use upstream's own yearly total, not a sum over our 52-week (364-day)
+    // slice — GitHub's real "last year" window is ~371-373 days (53
+    // calendar weeks), so summing our truncated slice undercounts.
+    const total = data.total?.lastYear ?? recent.reduce((sum, d) => sum + (d.count ?? 0), 0);
 
     return NextResponse.json(
       { weeks, total },
