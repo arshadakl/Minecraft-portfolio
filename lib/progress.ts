@@ -26,6 +26,8 @@ interface ProgressStore {
   squashBug: (id: string) => void;
   visitSection: (i: number) => void;
   setVaultGuiOpen: (open: boolean) => void;
+  /** Unlock any achievement by id (no-op if unknown or already unlocked). */
+  unlockAchievement: (id: string) => void;
   dismissToast: (id: string) => void;
 }
 
@@ -70,6 +72,8 @@ export const useProgress = create<ProgressStore>()(
             unlock("disclosure");
           }
         },
+
+        unlockAchievement: (id) => unlock(id),
 
         dismissToast: (id) =>
           set((s) => ({ toasts: s.toasts.filter((t) => t.id !== id) })),

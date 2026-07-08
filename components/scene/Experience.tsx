@@ -19,6 +19,10 @@ import ContactRoom from "./rooms/ContactRoom";
 import Figures from "./Figures";
 import Bugs from "./Bugs";
 import Vault from "./Vault";
+import Lever from "./Lever";
+import Rain from "./Rain";
+import RedstoneWall from "./RedstoneWall";
+import SceneAtmosphere from "./SceneAtmosphere";
 import { SEGMENTS } from "@/lib/path";
 
 /** The full 3D tour: golden-hour cottage, scroll rig, all room content. */
@@ -33,25 +37,10 @@ export default function Experience() {
       }}
     >
       <DuskSky />
-      <fog attach="fog" args={["#d6a878", 46, 120]} />
-
-      {/* Low golden sun raking from behind the house + warm sky fill */}
-      <ambientLight intensity={0.5} color="#c3aeb0" />
-      <directionalLight
-        position={[34, 20, -58]}
-        intensity={2.3}
-        color="#ffcf95"
-        castShadow
-        shadow-mapSize-width={2048}
-        shadow-mapSize-height={2048}
-        shadow-camera-left={-45}
-        shadow-camera-right={45}
-        shadow-camera-top={70}
-        shadow-camera-bottom={-70}
-        shadow-camera-near={1}
-        shadow-camera-far={160}
-        shadow-bias={-0.0004}
-      />
+      {/* Fog + sun/moon + ambient — cross-fades when the lever flips */}
+      <SceneAtmosphere />
+      {/* Passing showers on a timer; the couple's umbrella follows it */}
+      <Rain />
 
       <ScrollControls pages={SEGMENTS} damping={0.42} infinite>
         <CameraRig />
@@ -60,6 +49,8 @@ export default function Experience() {
         <Figures />
         <Bugs />
         <Vault />
+        <Lever />
+        <RedstoneWall />
         <Door />
         <NameSign />
         <EntryHall />

@@ -1,5 +1,7 @@
 export const profile = {
   name: "ARSHAD A",
+  /** Big garden-sign version. */
+  shortName: "ARSHAD",
   tagline: "Developer & Security Researcher",
   portrait: "/images/arshadakl.jpg",
 };
@@ -177,18 +179,27 @@ export const projects: Project[] = [
   },
 ];
 
-export const skills = [
-  "NestJS",
-  "Express.js",
-  "Next.js",
-  "TanStack Query",
-  "TanStack Table",
-  "TanStack Form",
-  "Zustand",
-  "Redux",
-  "Zod",
-  "Tailwind CSS",
-  "Storybook",
+export interface Skill {
+  name: string;
+  /** Inventory-slot icon. */
+  icon: string;
+  /** Enchantment-tooltip lore lines. */
+  lore: string[];
+}
+
+export const skills: Skill[] = [
+  { name: "Next.js", icon: "▲", lore: ["Daily driver for every frontend", "SSR, RSC, edge deploys"] },
+  { name: "NestJS", icon: "🐈", lore: ["Backend of choice at work", "Modular APIs, guards, pipes"] },
+  { name: "Express.js", icon: "🚂", lore: ["First backend love", "Still ships the small stuff"] },
+  { name: "TanStack Query", icon: "🔄", lore: ["Cache-first data fetching", "Cut page loads 35–40%"] },
+  { name: "TanStack Table", icon: "📊", lore: ["Heavy admin grids", "Sorting, filters, virtual rows"] },
+  { name: "TanStack Form", icon: "📝", lore: ["Type-safe form state", "Pairs with Zod schemas"] },
+  { name: "Zustand", icon: "🐻", lore: ["Small store, no boilerplate", "Powers this very site"] },
+  { name: "Redux", icon: "🌀", lore: ["The classic state machine", "Toolkit era, not switch-case era"] },
+  { name: "Zod", icon: "🛡", lore: ["Runtime schema validation", "Trust no input"] },
+  { name: "Tailwind CSS", icon: "🎨", lore: ["Utility-first styling", "Design systems at speed"] },
+  { name: "Storybook", icon: "📚", lore: ["Component workshop", "Figma-to-code pipeline"] },
+  { name: "TypeScript", icon: "🧩", lore: ["Everything above, typed", "any is a code smell"] },
 ];
 
 export const SECTION_NAMES = [

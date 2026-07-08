@@ -42,6 +42,27 @@ body {
   animation: toast-in 0.35s steps(5) both;
 }
 
+/* Hotbar item-name popup — pops in, holds, fades (like switching items) */
+@keyframes hotbar-name {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 6px);
+  }
+  8%,
+  62% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 0);
+  }
+}
+
+.hotbar-name {
+  animation: hotbar-name 2.2s steps(8) forwards;
+}
+
 /* "Vault unsealed" hint pulse */
 @keyframes vault-hint {
   0%,

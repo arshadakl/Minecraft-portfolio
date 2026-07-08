@@ -20,7 +20,7 @@ export default function NameSign() {
         <meshStandardMaterial color="#6e4f2a" roughness={0.85} />
       </mesh>
       <WoodSign
-        text={[profile.name, "Developer &", "Security Researcher", "· scroll to walk in ·"]}
+        text={[profile.shortName, "Developer &", "Security Researcher", "· scroll to walk in ·"]}
         position={[-3.5, 2.7, 16.5]}
         rotationY={-0.18}
         width={3.2}

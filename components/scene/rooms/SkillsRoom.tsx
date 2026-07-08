@@ -5,7 +5,13 @@ import WoodSign from "../WoodSign";
 import { skills } from "@/lib/content";
 import { card, eyebrow, heading, muted, rule } from "../panelStyles";
 
-/** Section 6 — crafting corner: skills as ingredient badges. */
+/**
+ * Section 6 — crafting corner: skills as a Minecraft inventory grid.
+ * Each slot shows the item icon + name; hovering opens an enchantment
+ * tooltip (purple, with lore lines) like hovering an enchanted item.
+ * Slots re-enable pointer events (WallPanel content is pointer-events-none
+ * by default); wheel events still bubble to the scroll container.
+ */
 export default function SkillsRoom() {
   return (
     <group>
@@ -26,17 +32,34 @@ export default function SkillsRoom() {
         section={6}
       >
         <div className={card}>
-          <p className={eyebrow}>Crafting table</p>
-          <h2 className={heading}>⚒ Ingredients</h2>
+          <p className={eyebrow}>Inventory</p>
+          <h2 className={heading}>⚒ Crafting Ingredients</h2>
           <div className={rule} />
-          <p className={`${muted} mb-3`}>The stack I reach for when building things.</p>
-          <div className="grid grid-cols-3 gap-2">
+          <p className={`${muted} mb-3`}>Hover an item to inspect its enchantments.</p>
+          <div className="grid grid-cols-4 gap-1.5">
             {skills.map((s) => (
               <div
-                key={s}
-                className="flex h-12 items-center justify-center border-2 border-[#8a6f47] bg-[#d3bd8c] px-1 text-center font-pixel-body text-[15px] text-[#3f5c28] shadow-[inset_2px_2px_0_#b89b68,inset_-2px_-2px_0_#efdfb2]"
+                key={s.name}
+                className="group pointer-events-auto relative flex h-16 cursor-help flex-col items-center justify-center gap-0.5 border-2 border-[#373737] bg-[#8b8b8b] shadow-[inset_2px_2px_0_#ffffff59,inset_-2px_-2px_0_#00000059] transition-transform hover:scale-105"
               >
-                {s}
+                <span className="text-xl leading-none">{s.icon}</span>
+                <span className="px-0.5 text-center font-pixel-body text-[12px] leading-none text-[#1c140c]">
+                  {s.name}
+                </span>
+                {/* Enchantment tooltip */}
+                <div className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-1.5 hidden w-max max-w-44 -translate-x-1/2 border-2 border-[#8b5cf6] bg-[#170817]/95 px-2.5 py-1.5 text-left group-hover:block">
+                  <p className="font-pixel-body text-[15px] leading-tight text-[#c4b5fd]">
+                    {s.icon} {s.name}
+                  </p>
+                  {s.lore.map((line) => (
+                    <p
+                      key={line}
+                      className="font-pixel-body text-[13px] italic leading-tight text-[#9ca3af]"
+                    >
+                      {line}
+                    </p>
+                  ))}
+                </div>
               </div>
             ))}
           </div>

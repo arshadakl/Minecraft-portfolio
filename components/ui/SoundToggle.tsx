@@ -10,12 +10,14 @@ export default function SoundToggle() {
 
   const toggle = () => {
     const next = !muted;
+    useSiteStore.getState().setAudioTouched(); // manual choice beats auto-start
     setMuted(next);
     audio.setMuted(next); // must run in this click gesture to start playback
   };
 
   return (
     <button
+      data-sound-toggle
       onClick={toggle}
       aria-label={muted ? "Unmute music" : "Mute music"}
       title={muted ? "Unmute" : "Mute"}

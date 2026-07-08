@@ -42,6 +42,18 @@ export const ACHIEVEMENTS: AchievementDef[] = [
     title: "Responsible Disclosure",
     desc: "Opened the vault and read the real story",
   },
+  {
+    id: "night-owl",
+    icon: "🌙",
+    title: "Night Owl",
+    desc: "Flipped the lever and turned the world to night",
+  },
+  {
+    id: "hacker",
+    icon: "💻",
+    title: "l33t h4x0r",
+    desc: "Ran hack in the coder's terminal",
+  },
 ];
 
 export const ACHIEVEMENT_BY_ID = Object.fromEntries(

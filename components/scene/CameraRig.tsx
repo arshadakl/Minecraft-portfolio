@@ -21,8 +21,9 @@ export default function CameraRig() {
   const look = useRef(new THREE.Vector3());
   // Smoothed idle sway target (lags the raw pointer so motion feels organic)
   const sway = useRef({ x: 0, y: 0 });
-  // Freelook: mouse drag or arrow keys rotate the view
-  const { yaw, pitch } = useFreelook();
+  // Freelook: drag or arrow keys rotate the view around the rail direction
+  const { offset: lookOffset, update: updateFreelook } = useFreelook();
+  const prevOffset = useRef(0);
 
   useEffect(() => {
     useSiteStore.getState().setScrollEl(scroll.el);
@@ -52,15 +53,24 @@ export default function CameraRig() {
 
     camera.position.copy(pos.current);
 
-    // Freelook: rotate the look direction by yaw/pitch
+    // Feed the freelook the wrapped scroll delta (offset jumps 1→0 at the
+    // loop seam) so it can ease the view back to the rail while moving.
+    let scrollDelta = scroll.offset - prevOffset.current;
+    prevOffset.current = scroll.offset;
+    if (scrollDelta > 0.5) scrollDelta -= 1;
+    else if (scrollDelta < -0.5) scrollDelta += 1;
+    updateFreelook(delta, scrollDelta);
+
+    // Rotate the rail's look direction by the smoothed freelook offset.
+    // The TOTAL pitch is clamped (the flyover already looks down) so the
+    // combined angle can never reach a pole and flip the camera.
     const direction = look.current.clone().sub(pos.current).normalize();
-    // Direction → spherical coords
-    let theta = Math.atan2(direction.x, direction.z); // yaw
-    let phi = Math.asin(direction.y); // pitch
-    // Apply freelook deltas
-    theta += yaw.current;
-    phi += pitch.current;
-    // Back to Cartesian, apply to lookAt point (1 unit away)
+    const theta = Math.atan2(direction.x, direction.z) + lookOffset.current.yaw;
+    const phi = THREE.MathUtils.clamp(
+      Math.asin(direction.y) + lookOffset.current.pitch,
+      -1.25,
+      1.25
+    );
     const r = Math.cos(phi);
     look.current.set(
       pos.current.x + r * Math.sin(theta),

@@ -6,7 +6,7 @@
 
 type Sfx = "doorOpen" | "doorClose";
 /** Synthesized one-shots (WebAudio, no asset files). */
-type Synth = "squish" | "ding" | "rumble";
+type Synth = "squish" | "ding" | "rumble" | "lever";
 
 class AudioManager {
   private music: HTMLAudioElement | null = null;
@@ -116,6 +116,10 @@ class AudioManager {
         tone("sawtooth", 58, 32, 0, 1.3, 0.3);
         tone("sawtooth", 44, 26, 0.15, 1.2, 0.25);
         tone("square", 90, 45, 0.05, 0.5, 0.08);
+        break;
+      case "lever": // wooden clack: two short snaps
+        tone("square", 900, 500, 0, 0.05, 0.15);
+        tone("square", 420, 240, 0.06, 0.07, 0.18);
         break;
     }
   }

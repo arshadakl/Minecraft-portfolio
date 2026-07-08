@@ -25,7 +25,7 @@ export default function BugCounter() {
   const done = squashed >= BUG_COUNT;
 
   return (
-    <div className="pointer-events-none fixed bottom-4 left-4 z-20 flex flex-col gap-1.5">
+    <div className="pointer-events-none fixed bottom-16 left-4 z-20 flex flex-col gap-1.5">
       <div className="flex items-center gap-2 border-2 border-[#5c4a2a] bg-black/70 px-3 py-1.5 font-pixel-body text-[16px] text-amber-100">
         <span>🐛</span>
         <span>

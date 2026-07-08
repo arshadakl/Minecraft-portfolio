@@ -133,10 +133,10 @@ export default function SimpleView() {
           <div className="flex flex-wrap gap-2">
             {skills.map((s) => (
               <span
-                key={s}
+                key={s.name}
                 className="border-2 border-[#6e4f2a] bg-[#3e2c1e] px-2.5 py-1 text-sm font-bold text-amber-200"
               >
-                {s}
+                {s.icon} {s.name}
               </span>
             ))}
           </div>
