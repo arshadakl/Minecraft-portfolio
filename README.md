@@ -1,36 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Minecraft Portfolio
 
-## Getting Started
+A 3D portfolio site built as a walkable Minecraft-style voxel house. Scroll to move a camera along a fixed path through the garden and each room — About, Hall of Fame, Experience, Projects, Skills, and Contact — with a living scene around you: a farmer working the crops, a dog that circles the lawn and visits a couple chatting by the pond, day/night lighting, passing rain, and a hidden bug-hunt mini-game.
 
-First, run the development server:
+**Live:** [minecraft.arshadakl.in](https://minecraft.arshadakl.in)
+
+## Stack
+
+- **Next.js 16** (App Router) + **React 19** + **TypeScript**
+- **React Three Fiber** + **drei** + **Three.js** — the 3D scene, all procedurally generated voxel geometry (no external models)
+- **Zustand** — scroll progress, achievements, audio/weather/day-night state
+- **Tailwind CSS 4** — UI overlays (hotbar, terminal, toasts)
+- Web Audio API — procedural sound effects and background music, no audio files
+- Deployed on **Cloudflare** via `@opennextjs/cloudflare`
+
+## Features
+
+- Scroll-driven camera on a closed Catmull-Rom curve through the house, with drag-to-look freelook (Street View style, not raw mouse tracking)
+- Procedurally generated house, garden, pond, and terrain — no imported assets
+- Living NPCs with their own schedules: a farmer roaming/working/feeding the dog, a couple that chats, strolls the pond, and plays with the dog, all with collision-aware walked paths
+- Day/night cycle (redstone lever) and a periodic rain system
+- GitHub contribution wall rendered as glowing redstone lamps, fed by a cached API route
+- Hidden bug-hunt achievement game and a fake terminal on the in-scene monitors
+
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Open [http://localhost:3000](http://localhost:3000).
