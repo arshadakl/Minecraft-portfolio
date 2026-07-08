@@ -30,3 +30,15 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
+
+## Deploying (Cloudflare Workers)
+
+`git push` alone does **not** deploy — no CI is wired up. To ship:
+
+```bash
+npm run deploy
+```
+
+Notes:
+- `/api/github` is edge-cached (12h). A redeploy ships new code immediately, but old cached API responses can still linger up to ~12h until the cache naturally revalidates — purge it in the Cloudflare dashboard for an instant refresh.
+- `CONTACT_UPSTREAM_URL` / `CONTACT_SOURCE` secrets aren't in `wrangler.jsonc` (would get committed) — set per environment with `npx wrangler secret put <NAME>`.
