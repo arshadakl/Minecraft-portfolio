@@ -10,7 +10,7 @@ import { NextResponse } from "next/server";
  * Cached at the edge for 12h — commit data doesn't need to be fresher.
  */
 const USERNAME = "arshadakl";
-const WEEKS = 26;
+const WEEKS = 52;
 
 interface Contribution {
   date: string;

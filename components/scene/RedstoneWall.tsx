@@ -5,18 +5,21 @@ import * as THREE from "three";
 import WoodSign from "./WoodSign";
 
 /**
- * GitHub contribution graph as a wall of redstone lamps — 26 weeks × 7 days
- * on the contact room's west wall (the only interior wall with no window or
- * board; turning around to find it is what freelook is for). Lamp warmth =
- * contribution level. Data comes from /api/github (edge-cached); if the
- * fetch fails a deterministic placeholder pattern lights up instead, so the
- * wall never renders dark or empty.
+ * GitHub contribution graph as a wall of redstone lamps — a full year,
+ * 52 weeks × 7 days, on the contact room's west wall (the only interior
+ * wall with no window or board; turning around to find it is what freelook
+ * is for). Lamp warmth = contribution level. Data comes from /api/github
+ * (edge-cached); if the fetch fails a deterministic placeholder pattern
+ * lights up instead, so the wall never renders dark or empty.
  */
-const WEEKS = 26;
+const WEEKS = 52;
 const DAYS = 7;
 const COUNT = WEEKS * DAYS;
-const STEP = 0.19;
-const WALL_X = -4.9;
+const STEP = 0.1; // tighter than the old 26-week version so a full year still fits the wall
+// Backing plate face sits at -4.93 (x=-4.96, half-thickness 0.03). Lamps
+// need real clearance in front of that or they z-fight the backing and can
+// render as invisible depending on depth-buffer precision.
+const WALL_X = -4.85;
 const CENTER_Z = -41;
 const BASE_Y = 1.7;
 
@@ -73,7 +76,7 @@ export default function RedstoneWall() {
       <WoodSign
         text={
           data?.total != null
-            ? [`Redstone Commits`, `${data.total} in the past 6 months`]
+            ? [`Redstone Commits`, `${data.total} in the past year`]
             : "Redstone Commits"
         }
         position={[-4.9, 3.6, CENTER_Z]}
@@ -86,8 +89,8 @@ export default function RedstoneWall() {
         <boxGeometry args={[0.06, DAYS * STEP + 0.2, WEEKS * STEP + 0.2]} />
         <meshStandardMaterial color="#1c130c" roughness={0.9} />
       </mesh>
-      <instancedMesh ref={mesh} args={[undefined, undefined, COUNT]}>
-        <boxGeometry args={[0.08, 0.15, 0.15]} />
+      <instancedMesh ref={mesh} args={[undefined, undefined, COUNT]} frustumCulled={false}>
+        <boxGeometry args={[0.08, 0.085, 0.085]} />
         {/* Basic material — instance colors render as emissive-looking glow */}
         <meshBasicMaterial toneMapped={false} />
       </instancedMesh>
