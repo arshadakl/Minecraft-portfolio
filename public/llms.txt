@@ -1,0 +1,29 @@
+# Minecraft Portfolio
+
+> Arshad A's developer portfolio, built as a walkable 3D Minecraft-style voxel house. Visitors scroll to move a camera along a fixed path through a garden and each room of the house.
+
+Arshad is a Software Engineer (full-stack, Next.js/NestJS) and freelance security researcher, listed in CERT-In's (Government of India) Hall of Fame for responsibly disclosing a critical vulnerability affecting 200,000+ users.
+
+## Site structure
+
+The site is a single scrolling page (no separate URLs per section). Rooms, in scroll order:
+
+- Garden — entry, name sign
+- Front Door — about-me intro
+- About Me — bio, background
+- Hall of Fame — CERT-In recognition, press coverage
+- Experience — work history (ELT Global, Brototype)
+- Projects — Triple i Admin Portal, Triple i Learning Platform, SSH Portfolio, and other side projects
+- Skills — tech stack (Next.js, NestJS, TanStack, Zustand, Zod, TypeScript, etc.)
+- Contact — contact form, social links, live GitHub contribution graph
+
+## Contact
+
+- GitHub: https://github.com/arshadakl
+- LinkedIn: https://linkedin.com/in/arshad-akl
+- Blog: https://blog.arshadakl.in
+- SSH portfolio (terminal UI): ssh arshadakl.in
+
+## Notes for crawlers
+
+This is a JavaScript-rendered 3D scene (React Three Fiber) — content is not visible in the raw HTML without executing JavaScript. A non-3D fallback is available via the "Simple view" toggle in the UI.
